@@ -3,8 +3,7 @@ package entidades;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Paciente extends Doctor implements Serializable {
-
+public class Doctor implements Serializable{
     String id;
 
     public String getId() {
@@ -39,18 +38,16 @@ public class Paciente extends Doctor implements Serializable {
         this.apMaterno = apMaterno;
     }
 
-    public Date getFechaNacimiento() {
-        return getFechaNacimiento();
+    public String getEspecialidad() {
+        return getEspecialidad();
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setEspecialidad(String Especialidad) {
+        this.Especialidad = Especialidad;
     }
 
     String nombre;
     String apPaterno;
     String apMaterno;
-    Date fechaNacimiento;
-
-
+    String Especialidad;
 }

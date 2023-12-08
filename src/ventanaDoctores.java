@@ -1,5 +1,5 @@
-import DAO.PacientesCRUD;
-import entidades.Paciente;
+import DAO.DoctoresCRUD;
+import entidades.Doctor;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,50 +10,43 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ventanaPacientes extends JFrame {
-    private JLabel lblID;
-    private JLabel lblNombre;
-    private JLabel lblApellidoPaterno;
-    private JLabel lblApellidoMaterno;
-    private JLabel lblFechaNacimiento;
-    private JLabel lblSexo;
+public class ventanaDoctores extends JFrame {
     private JTextField txtID;
     private JTextField txtNombre;
     private JTextField txtApellidoPaterno;
     private JTextField txtApellidoMaterno;
-    private JComboBox cmbSexo;
-    private JTextField txtFechaNacimiento;
-    private JButton btnEliminar;
+    private JTextField txtEspecialidad;
+    private JButton btnBuscar;
     private JButton btnAgregar;
     private JButton btnActualizar;
-    private JButton btnBuscar;
+    private JButton btnEliminar;
     JPanel miPanel;
 
-    public ventanaPacientes() {
+
+    public ventanaDoctores() {
         btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                {
-                    //buscar paciente
-                    PacientesCRUD crud = new PacientesCRUD();
-                    String id = txtID.getText();
-                    Paciente a = crud.buscarPacientePorId(id);
-                    if(a == null){
-                        //JOptionPane.showMessageDialog(miPanel,"No se encuentra el paciente con el ID: " + matricula,"Alumnos",JOptionPane.ERROR_MESSAGE);
-                        int respuesta = JOptionPane.showConfirmDialog(miPanel,"No se encuentra el paciente con el ID: " + id + "\n¿Desea dar de alta?" ,"Paciente",JOptionPane.YES_NO_OPTION);
-                        if(respuesta == 0){
-                            //sí quiere dar de alta el paciente inexistente
-                            btnAgregar.setEnabled(true);
-                            txtNombre.requestFocus();
-                        }else if(respuesta == 1){
+                //buscar doctor
+                DoctoresCRUD crud = new DoctoresCRUD();
+                String id = txtID.getText();
+                Doctor a;
+                a = crud.buscarDoctorPorId(id);
+                if(a == null){
+                    //JOptionPane.showMessageDialog(miPanel,"No se encuentra el paciente con el ID: " + matricula,"Alumnos",JOptionPane.ERROR_MESSAGE);
+                    int respuesta = JOptionPane.showConfirmDialog(miPanel,"No se encuentra el paciente con el ID: " + id + "\n¿Desea dar de alta?" ,"Paciente",JOptionPane.YES_NO_OPTION);
+                    if(respuesta == 0){
+                        //sí quiere dar de alta el doctor inexistente
+                        btnAgregar.setEnabled(true);
+                        txtNombre.requestFocus();
+                    }else if(respuesta == 1){
 
-                        }
                     }
-                    else{
-                        txtNombre.setText(a.getNombre());
-                        txtApellidoPaterno.setText(a.getApPaterno());
-                        txtApellidoMaterno.setText(a.getApMaterno());
-                    }
+                }
+                else{
+                    txtNombre.setText(a.getNombre());
+                    txtApellidoPaterno.setText(a.getApPaterno());
+                    txtApellidoMaterno.setText(a.getApMaterno());
                 }
             }
         });
@@ -70,36 +63,36 @@ public class ventanaPacientes extends JFrame {
                     JOptionPane.showMessageDialog(miPanel, "Por favor, complete todos los campos requeridos", "Error", JOptionPane.ERROR_MESSAGE);
                     return; // Detener la operación si hay campos en blanco
                 }
-                //instanciar objeto de la clase Paciente
-                Paciente a = new Paciente();
+                //instanciar objeto de la clase Doctor
+                Doctor a = new Doctor();
                 a.setId(txtID.getText());
                 a.setNombre(txtNombre.getText());
                 a.setApPaterno(txtApellidoPaterno.getText());
                 a.setApMaterno(txtApellidoMaterno.getText());
-                a.setFechaNacimiento(new Date());
+                a.setEspecialidad(txtEspecialidad.getText());
 
-                //invocar metodo de insertarPaciente
-                PacientesCRUD crud = new PacientesCRUD();
-                crud.insertarPaciente(a);
+                //invocar metodo de insertarDoctor
+                DoctoresCRUD crud = new DoctoresCRUD();
+                crud.insertarDoctor(a);
             }
         });
-
         btnActualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                actualizarPaciente();
+
+                actualizarDoctor();
             }
         });
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                eliminarPaciente();
+
+                eliminarDoctor();
             }
         });
     }
-
-    private void actualizarPaciente() {
-        // Obtener el ID del paciente a actualizar
+    private void actualizarDoctor() {
+        // Obtener el ID del Doctor a actualizar
         String id = txtID.getText();
 
         // Verificar si el ID está vacío
@@ -108,7 +101,7 @@ public class ventanaPacientes extends JFrame {
             return;
         }
 
-        // Obtener los datos del paciente actualizados desde los campos de texto
+        // Obtener los datos del Doctor actualizados desde los campos de texto
         String nombre = txtNombre.getText();
         String apPaterno = txtApellidoPaterno.getText();
         String apMaterno = txtApellidoMaterno.getText();
@@ -119,16 +112,16 @@ public class ventanaPacientes extends JFrame {
             return;
         }
 
-        // Crear un objeto Paciente con los datos actualizados
-        Paciente pacienteActualizado = new Paciente();
-        pacienteActualizado.setId(id);
-        pacienteActualizado.setNombre(nombre);
-        pacienteActualizado.setApPaterno(apPaterno);
-        pacienteActualizado.setApMaterno(apMaterno);
+        // Crear un objeto Doctor con los datos actualizados
+        Doctor doctorActualizado = new Doctor();
+        doctorActualizado.setId(id);
+        doctorActualizado.setNombre(nombre);
+        doctorActualizado.setApPaterno(apPaterno);
+        doctorActualizado.setApMaterno(apMaterno);
 
-        // Invocar el método actualizarPaciente del CRUD
-        PacientesCRUD crud = new PacientesCRUD();
-        crud.actualizarPaciente(pacienteActualizado);
+        // Invocar el método actualizarDoctor del CRUD
+        DoctoresCRUD crud = new DoctoresCRUD();
+        crud.actualizarDoctor(doctorActualizado);
 
         // Limpiar los campos después de la actualización
         limpiarCampos();
@@ -144,34 +137,34 @@ public class ventanaPacientes extends JFrame {
         txtApellidoMaterno.setText("");
         // Limpiar otros campos si es necesario
     }
-    private void eliminarPaciente() {
-        PacientesCRUD crud = new PacientesCRUD();
+    private void eliminarDoctor() {
+        DoctoresCRUD crud = new DoctoresCRUD();
         String id = txtID.getText();
 
         int respuesta = JOptionPane.showConfirmDialog(miPanel,
                 "¿Seguro que desea eliminar al paciente con el ID: " + id + "?",
-                "Eliminar Paciente", JOptionPane.YES_NO_OPTION);
+                "Eliminar Doctor", JOptionPane.YES_NO_OPTION);
 
         if (respuesta == JOptionPane.YES_OPTION) {
             try {
-                crud.eliminarPaciente(id);
+                crud.eliminarDoctor(id);
                 limpiarCampos();
-                JOptionPane.showMessageDialog(miPanel, "Paciente eliminado correctamente");
+                JOptionPane.showMessageDialog(miPanel, "Doctor eliminado correctamente");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(miPanel, "Error al eliminar paciente: " + ex.getMessage(),
+                JOptionPane.showMessageDialog(miPanel, "Error al eliminar Doctor: " + ex.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    private Paciente obtenerDatosPaciente(String id) {
-        try (ObjectInputStream miStream2 = new ObjectInputStream(new FileInputStream("C:\\temp\\listaPaciente.txt"))) {
+    private Doctor obtenerDatosDoctor(String id) {
+        try (ObjectInputStream miStream2 = new ObjectInputStream(new FileInputStream("C:\\temp\\listaDoctor.txt"))) {
             Object o = miStream2.readObject();
-            ArrayList<Paciente> otraLista = (ArrayList<Paciente>) o;
+            ArrayList<Doctor> otraLista = (ArrayList<Doctor>) o;
 
-            for (Paciente paciente : otraLista) {
-                if (paciente.getId().equals(id)) {
+            for (Doctor doctor : otraLista) {
+                if (doctor.getId().equals(id)) {
                     miStream2.close(); // Cerrar el flujo de lectura
-                    return paciente;
+                    return doctor;
                 }
             }
             // Saliendo del bucle
@@ -186,13 +179,13 @@ public class ventanaPacientes extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ventanaPacientes().setVisible(true);
+                new ventanaDoctores().setVisible(true);
             }
         });
-        ventanaPacientes v = new ventanaPacientes();
-        v.setContentPane(v.miPanel);
-        v.setSize(500,500);
-        v.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        v.setVisible(true);
+        ventanaDoctores vD = new ventanaDoctores();
+        vD.setContentPane(vD.miPanel);
+        vD.setSize(500,500);
+        vD.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        vD.setVisible(true);
     }
 }

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="EvidenciaCJ:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/EvidenciaCJ_jar</output-path>
+    <root id="archive" name="EvidenciaCJ.jar">
+      <element id="module-output" name="EvidenciaCJ" />
+    </root>
+  </artifact>
+</component>
