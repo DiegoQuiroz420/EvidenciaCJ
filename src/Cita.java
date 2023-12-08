@@ -32,7 +32,6 @@ public class Cita extends  JFrame {
     private String obtenerCitasTexto() {
         StringBuilder citasTexto = new StringBuilder();
 
-        // Itera sobre la lista de citas y agrega la información al StringBuilder
         for (Cita cita : listaCitas) {
             String nombrePaciente = obtenerNombrePaciente(entidades.Cita.getIdPaciente());
             String nombreDoctor = obtenerNombreDoctor(entidades.Cita.getIdDoctor());
